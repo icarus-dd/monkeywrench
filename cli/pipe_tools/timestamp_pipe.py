@@ -6,8 +6,10 @@ import select
 import sys
 
 config = {
-    'time_format': '[%d/%m/%y %H:%M:%S] ', # See also get_options() for a second assignment
+    'time_format': '[%d/%m/%y %H:%M:%S] ',  # See also get_options() for a second assignment
 }
+
+
 def get_options():
     global config
 
@@ -38,15 +40,13 @@ def get_options():
         config['time_format'] = '[%d/%m/%y %I:%M:%S %p] '
 
 
-
-
 def piper():
     global config
     for line in sys.stdin:
         line = line.rstrip()
         print(datetime.datetime.now().strftime(config['time_format']) + line)
 
+
 if __name__ == "__main__":
     get_options()
     piper()
-
