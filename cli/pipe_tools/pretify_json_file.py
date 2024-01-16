@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-Read JSON from file or STDIN, print human-readable format
+Read JSON from file(s) or STDIN, print human-readable format
 
 Options:
     [[FILE] ... ]
