@@ -1,5 +1,16 @@
 #!/usr/bin/env python3
 
+"""
+Command line tool to read STDIN from pipe, output each line prepended with a timestamp.
+
+Options:
+    --ampm
+            Display timestamps in 12-hour format with AM/PM
+    --time-format <format_string>
+            format string to pass to the python datetime module
+
+    Note: --ampm and --time-format are mutually exclusive
+"""
 import argparse
 import datetime
 import select
@@ -14,15 +25,19 @@ def get_options():
     global config
 
     parser = argparse.ArgumentParser(
-        description='Prepend the current timestamp to every line piped\nand reprint the lines.')
+        formatter_class=argparse.RawTextHelpFormatter,
+        description="Prepend the current timestamp to every line read from STDIN.\nPrint results to STDOUT.",
+        epilog='Note: --ampm and --time-format are mutually exclusive')
     parser.add_argument('-t', '--time-format', type=str,
-                        help='format string to pass to the python datetime module')
+                        help="format string to pass to the python datetime module." +
+                             "\nSee https://docs.python.org/3/library/datetime.html#format-codes"
+                        )
     parser.add_argument('--ampm', action='store_true',
-                        help='Show 12 hour clock with AM/PM')
+                        help='show 12 hour clock with AM/PM')
 
     # Are we a pipe?
     if not select.select([sys.stdin, ], [], [], 0.0)[0]:
-        print("\nERROR\n    No data to pipe.\n")
+        print("\nERROR\n    No data to pipe.\n", file=sys.stderr)
         parser.print_help()
         quit(1)
 
