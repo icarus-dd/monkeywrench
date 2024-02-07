@@ -32,11 +32,10 @@ if __name__ == "__main__":
 
     if len(args.file):
         if args.merge:
-            __i = 0
             __json = None
             for __f in args.file:
                 with open(__f) as __j:
-                    if __i == 0:
+                    if __json is None:
                         __json = json.load(__j)
                     else:
                         __json += json.load(__j)
